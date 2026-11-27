@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "./api.js";
 import { statusLabel } from "./statuses.js";
+import AutoCard from "./AutoCard.jsx";
 
 export default function Dashboard({ user }) {
   const [items, setItems] = useState([])
@@ -35,13 +36,13 @@ export default function Dashboard({ user }) {
       )}
       <div className="grid cols-2">
         {items.map(item => (
-          <article key={item.id} className="card stack">
+          <AutoCard key={item.id} item={item}>
             <h3>{item.title}</h3>
             <p>{item.car_model}</p>
             <p>{item.description}</p>
             <p>{item.visit_date}</p>
             <p>Статус: {statusLabel(item.status)}</p>
-          </article>
+          </AutoCard>
         ))}
       </div>
     </>

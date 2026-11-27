@@ -10,6 +10,7 @@ export default function NewItemPage() {
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [errors, setErrors] = useState({})
   const [message, setMessage] = useState('')
 
   function change(event) {
@@ -25,6 +26,7 @@ export default function NewItemPage() {
 
     setSaving(true)
     setError('')
+    setErrors({})
     setMessage('')
     
     try {
@@ -42,6 +44,7 @@ export default function NewItemPage() {
       setMessage(`${data.message}. Номер: ${data.id}`)
     } catch (err) {
       setError(err.message)
+      setErrors(err.fields || {})
     } finally {
       setSaving(false)
     }
@@ -50,7 +53,7 @@ export default function NewItemPage() {
   return (
     <>
       <h1>Новая запись</h1>
-      <form className="card stack" onSubmit={submit}>
+      <form className="card stack" onSubmit={submit} noValidate>
         <label className="field">
           <span>Услуга</span>
           <select
@@ -66,6 +69,9 @@ export default function NewItemPage() {
             <option value="Шиномонтаж">Шиномонтаж</option>
             <option value="Ремонт тормозов">Ремонт тормозов</option>
           </select>
+          {errors.title && (
+            <small className="field-error">{errors.title}</small>
+          )}
         </label>
         <label className="field">
           <span>Модель автомобиля</span>
@@ -77,6 +83,9 @@ export default function NewItemPage() {
             maxLength={100}
             disabled={saving}
           />
+          {errors.car_model && (
+            <small className="field-error">{errors.car_model}</small>
+          )}
         </label>
         <label className="field">
           <span>Описание</span>
@@ -89,6 +98,9 @@ export default function NewItemPage() {
             maxLength={300}
             disabled={saving}
           />
+          {errors.description && (
+            <small className="field-error">{errors.description}</small>
+          )}
         </label>
         <label className="field">
           <span>Дата визита</span>
@@ -101,6 +113,9 @@ export default function NewItemPage() {
             maxLength={10}
             disabled={saving}
           />
+          {errors.visit_date && (
+            <small className="field-error">{errors.visit_date}</small>
+          )}
         </label>
         {error && <p className="form-error" role="alert">{error}</p>}
         {message && <p className="form-message" role="status">{message} <a href="/account">Мои записи</a></p>}

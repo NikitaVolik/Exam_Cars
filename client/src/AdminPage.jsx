@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "./api.js";
 import { statuses, transitions } from "./statuses.js";
+import AutoCard from "./AutoCard.jsx";
 
 export default function AdminPage() {
   const [items, setItems] = useState([])
@@ -113,7 +114,7 @@ export default function AdminPage() {
 
       <div className="grid cols-2">
         {visible.map(item => (
-          <article className="card stack" key={item.id}>
+          <AutoCard key={item.id} item={item}>
             <h2>Запись № {item.id}</h2>
             <h3>{item.title}</h3>
             <p>{item.car_model}</p>
@@ -134,7 +135,7 @@ export default function AdminPage() {
                 ))}
               </select>
             </label>
-          </article>
+          </AutoCard>
         ))}
       </div>
 

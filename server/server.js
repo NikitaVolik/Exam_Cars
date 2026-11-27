@@ -191,11 +191,7 @@ app.post("/api/items", auth, async (req, res) => {
   }
 
   if (!description || description.length < 10 || description.length > 300) {
-    errors.car_model = "Введите от 10 до 300 символов"
-  }
-
-  if (!description || description.length < 10 || description.length > 300) {
-    errors.car_model = "Введите от 10 до 300 символов"
+    errors.description = "Введите от 10 до 300 символов"
   }
 
   if (!/^\d{2}\.\d{2}\.\d{4}$/.test(visit_date)) {
