@@ -1,0 +1,50 @@
+/* Нейтральные дополнения. Цвета и шрифт заданы в framework.css. */
+.page { padding-top: 24px; padding-bottom: 24px; }
+.site-header { padding: 16px 0; border-bottom: 1px solid var(--color-border); }
+a { text-decoration: underline; text-underline-offset: 3px; }
+small { font-size: var(--fs-small); }
+.field-error { color: #b42345; }
+.btn { transition: background-color .2s, transform .2s; }
+.btn:active { transform: scale(.98); }
+.notice {
+  position: fixed; right: 16px; bottom: 16px; z-index: 10;
+  width: min(420px, calc(100% - 32px)); padding: 16px;
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  box-shadow: 0 4px 20px #0002;
+}
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main.container.page { flex: 1; }
+.site-footer {
+  margin-top: 32px;
+  padding: 28px 0;
+  background: #14283F;
+  color: #FFFFFF;
+}
+.site-footer small { color: #DBEAFE; }
+.site-footer .stack { gap: 8px; }
+.site-footer a { text-decoration: underline; }
+.site-footer a:focus-visible { outline-color: #FFFFFF; }
+.home-hero { align-items: center; }
+.home-hero img {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.card-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .site-footer, .cols-3, .home-hero, .grid.cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
