@@ -12,6 +12,7 @@ export default function AdminPage() {
   const [sort, setSort] = useState('desc')
   const [page, setPage] = useState(1)
   const [savingId, setSavingId] = useState(null)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     let active = true
@@ -25,7 +26,11 @@ export default function AdminPage() {
     }
   }, [])
 
-  const filtered = items.filter(item => !status || item.status === status).sort((a, b) => sort === 'asc' ? a.id - b.id : b.id - a.id)
+  const query = search.trim().toLowerCase()
+  const filtered = items.filter(item => (!status || item.status === status) && item.car_model.toLowerCase().includes(query)).sort((a, b) => {
+    const order = sort.startsWith('model-') ? a.car_model.localeCompare(b.car_model, 'ru', { sensitivity: 'base' }) || a.id - b.id : a.created_at.localeCompare(b.created_at) || a.id - b.id
+    return sort === 'asc' || sort === 'model-asc' ? order : -order
+  })
   const totalPages = Math.max(1, Math.ceil(filtered.length / 4))
   const currentPage = Math.min(page, totalPages)
   const visible = filtered.slice((currentPage - 1) * 4, currentPage * 4)
@@ -82,6 +87,18 @@ export default function AdminPage() {
           </select>
         </label>
         <label className="field">
+          <span>Поиск по модели</span>
+          <input
+            type="search"
+            value={search}
+            onChange={event => {
+              setSearch(event.target.value)
+              setPage(1)
+            }}
+            placeholder="Введите модель или её часть"
+          />
+        </label>
+        <label className="field">
           <span>Порядок записей</span>
           <select
             value={sort}
@@ -92,6 +109,8 @@ export default function AdminPage() {
           >
             <option value="desc">Сначала новые</option>
             <option value="asc">Сначала старые</option>
+            <option value="model-desc">Модель Я–А</option>
+            <option value="model-asc">Модель А–Я</option>
           </select>
         </label>
         <a href="/admin">Обновить список</a>
